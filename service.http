@@ -1,0 +1,8 @@
+@apiLocalUrl = localhost:8080
+
+### CREATE WALLET
+POST {{apiLocalUrl}}/covid/summary
+content-type: application/json
+
+{
+}

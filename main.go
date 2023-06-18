@@ -20,4 +20,5 @@ func main() {
 	r.GET("/covid/summary", handler.GetSummary)
 	fmt.Println("ใช้เวลาในการ Run ทั้งสิ้น : ", time.Since(start), " วินาที")
 	r.Run()
+
 }
