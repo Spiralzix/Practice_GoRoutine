@@ -1,7 +1,7 @@
 package service
 
 import (
-	"sync"
+	"fmt"
 
 	"github.com/Spiralzix/LinemanAssignment/internal/core/repositorys"
 )
@@ -43,12 +43,8 @@ func (s *CovidService) GetReport() (*Response, error) {
 		"61+":   0,
 		"N/A":   0,
 	}
-
-	var wg sync.WaitGroup
 	for _, value := range covidData.Data {
-		wg.Add(1)
 		// go func(value Response) {
-		defer wg.Done()
 		mapbyProvince[value.Province] += 1
 		switch age := value.Age; {
 		case age <= 30:
@@ -60,12 +56,12 @@ func (s *CovidService) GetReport() (*Response, error) {
 		default:
 			mapbyAge["N/A"] += 1
 		}
-		// }(value)
 	}
 
 	response := &Response{
 		Province: mapbyProvince,
 		AgeGroup: mapbyAge,
 	}
+	fmt.Println("response", response)
 	return response, nil
 }
