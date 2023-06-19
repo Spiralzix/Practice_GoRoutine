@@ -25,17 +25,17 @@ type CovidData struct {
 	StatQuarantine int    `json:"StatQuarantine"`
 }
 
-type covidRepo struct{}
+type CovidRecord struct{}
 
-func NewCOVIDRecord() ICovidRepo {
-	return &covidRepo{}
+func NewCOVIDRecord() ICovidRecord {
+	return &CovidRecord{}
 }
 
-type ICovidRepo interface {
+type ICovidRecord interface {
 	FetchData() (*CovidHistoricalData, error)
 }
 
-func (r *covidRepo) FetchData() (*CovidHistoricalData, error) {
+func (r *CovidRecord) FetchData() (*CovidHistoricalData, error) {
 	resp, err := http.Get("https://static.wongnai.com/devinterview/covid-cases.json")
 	if err != nil {
 		return nil, err
