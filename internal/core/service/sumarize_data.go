@@ -1,6 +1,8 @@
 package service
 
 import (
+	"sync"
+
 	"github.com/Spiralzix/LinemanAssignment/internal/core/repositorys"
 )
 
@@ -29,12 +31,15 @@ func NewCOVIDService(repo repositorys.ICovidRepo) ICovidService {
 	}
 }
 
-func (s *CovidService) GetReport() (*Response, error) {
-	covidData, err := s.repo.FetchData()
-	if err != nil {
-		return nil, err
-	}
+func countByProvince(covidData *repositorys.CovidHistoricalData) map[string]int {
 	var mapbyProvince = make(map[string]int)
+	for _, value := range covidData.Data {
+		mapbyProvince[value.Province] += 1
+	}
+	return mapbyProvince
+}
+
+func countByAge(covidData *repositorys.CovidHistoricalData) map[string]int {
 	var mapbyAge = map[string]int{
 		"0-30":  0,
 		"31-60": 0,
@@ -42,23 +47,46 @@ func (s *CovidService) GetReport() (*Response, error) {
 		"N/A":   0,
 	}
 	for _, value := range covidData.Data {
-		// go func(value Response) {
-		mapbyProvince[value.Province] += 1
 		switch age := value.Age; {
 		case age <= 30:
-			mapbyAge["0-30"] += 1
-		case age == 31 && age <= 60:
-			mapbyAge["31-60"] += 1
+			mapbyAge["0-30"]++
+		case age >= 31 && age <= 60:
+			mapbyAge["31-60"]++
 		case age >= 61:
-			mapbyAge["61+"] += 1
+			mapbyAge["61+"]++
 		default:
-			mapbyAge["N/A"] += 1
+			mapbyAge["N/A"]++
 		}
 	}
+	return mapbyAge
+}
+
+func (s *CovidService) GetReport() (*Response, error) {
+	covidData, err := s.repo.FetchData()
+	if err != nil {
+		return nil, err
+	}
+	var (
+		mapByProvince map[string]int
+		mapByAge      map[string]int
+		wg            sync.WaitGroup
+	)
+	wg.Add(2)
+	go func() {
+		defer wg.Done()
+		mapByProvince = countByProvince(covidData)
+	}()
+
+	go func() {
+		defer wg.Done()
+		mapByAge = countByAge(covidData)
+	}()
+
+	wg.Wait()
 
 	response := &Response{
-		Province: mapbyProvince,
-		AgeGroup: mapbyAge,
+		Province: mapByProvince,
+		AgeGroup: mapByAge,
 	}
 	return response, nil
 }
