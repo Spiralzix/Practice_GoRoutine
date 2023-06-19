@@ -1,8 +1,6 @@
 package service
 
 import (
-	"fmt"
-
 	"github.com/Spiralzix/LinemanAssignment/internal/core/repositorys"
 )
 
@@ -62,6 +60,5 @@ func (s *CovidService) GetReport() (*Response, error) {
 		Province: mapbyProvince,
 		AgeGroup: mapbyAge,
 	}
-	fmt.Println("response", response)
 	return response, nil
 }

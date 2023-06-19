@@ -2,6 +2,8 @@ package service
 
 import (
 	"testing"
+
+	"github.com/Spiralzix/LinemanAssignment/internal/core/service/mockdata"
 )
 
 func TestSummarizeCovidData(t *testing.T) {
@@ -21,7 +23,7 @@ func TestSummarizeCovidData(t *testing.T) {
 	}
 
 	// arrange
-	mockCovidHistoricalData := &CovidHistoricalData{}
+	mockCovidHistoricalData := &mockdata.MockCovidHistoricalData{}
 	newCOVIDService := NewCOVIDService(mockCovidHistoricalData)
 
 	// act

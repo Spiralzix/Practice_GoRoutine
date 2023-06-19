@@ -1,12 +1,12 @@
-package service
+package mockdata
 
 import "github.com/Spiralzix/LinemanAssignment/internal/core/repositorys"
 
-type CovidHistoricalData struct {
-	Data []CovidData `json:"Data"`
+type MockCovidHistoricalData struct {
+	Data []MockCovidData `json:"Data"`
 }
 
-type CovidData struct {
+type MockCovidData struct {
 	ConfirmDate    string `json:"ConfirmDate"`
 	No             int    `json:"No"`
 	Age            int    `json:"Age"`
@@ -21,7 +21,7 @@ type CovidData struct {
 	StatQuarantine int    `json:"StatQuarantine"`
 }
 
-func (c *CovidHistoricalData) FetchData() (*repositorys.CovidHistoricalData, error) {
+func (c *MockCovidHistoricalData) FetchData() (*repositorys.CovidHistoricalData, error) {
 	data := repositorys.CovidHistoricalData{
 		Data: []repositorys.CovidData{
 			{
