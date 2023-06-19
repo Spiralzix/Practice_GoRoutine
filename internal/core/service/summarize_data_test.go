@@ -9,7 +9,7 @@ import (
 func TestSummarizeCovidData(t *testing.T) {
 
 	// Data preparation
-	expectedSummary := Response{
+	expectedSummary := CovidReport{
 		Province: map[string]int{
 			"Bangkok":       2,
 			"Nakhon Pathom": 1,

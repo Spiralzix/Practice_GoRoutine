@@ -6,31 +6,25 @@ import (
 	"github.com/Spiralzix/LinemanAssignment/external"
 )
 
-// type Response struct {
-// 	Response []struct {
-// 		Province []string `json:"Province"`
-// 		AgeGroup []string `json:"AgeGroup"`
-// 	} `json:"response"`
-// }
-
-type Response struct {
+type CovidReport struct {
 	Province map[string]int `json:"Province"`
 	AgeGroup map[string]int `json:"AgeGroup"`
 }
 type CovidService struct {
-	repo external.ICovidRepo
+	record external.ICovidRecord
 }
 
 type ICovidService interface {
-	GetReport() (*Response, error)
+	GetReport() (*CovidReport, error)
 }
 
-func NewCOVIDService(repo external.ICovidRepo) ICovidService {
+func NewCOVIDService(record external.ICovidRecord) ICovidService {
 	return &CovidService{
-		repo: repo,
+		record: record,
 	}
 }
 
+// count case of covid by province
 func countByProvince(covidData *external.CovidHistoricalData) map[string]int {
 	var mapbyProvince = make(map[string]int)
 	for _, value := range covidData.Data {
@@ -39,6 +33,7 @@ func countByProvince(covidData *external.CovidHistoricalData) map[string]int {
 	return mapbyProvince
 }
 
+// count case of covid by age
 func countByAge(covidData *external.CovidHistoricalData) map[string]int {
 	var mapbyAge = map[string]int{
 		"0-30":  0,
@@ -61,8 +56,8 @@ func countByAge(covidData *external.CovidHistoricalData) map[string]int {
 	return mapbyAge
 }
 
-func (s *CovidService) GetReport() (*Response, error) {
-	covidData, err := s.repo.FetchData()
+func (s *CovidService) GetReport() (*CovidReport, error) {
+	covidData, err := s.record.FetchData()
 	if err != nil {
 		return nil, err
 	}
@@ -71,6 +66,7 @@ func (s *CovidService) GetReport() (*Response, error) {
 		mapByAge      map[string]int
 		wg            sync.WaitGroup
 	)
+
 	wg.Add(2)
 	go func() {
 		defer wg.Done()
@@ -83,10 +79,9 @@ func (s *CovidService) GetReport() (*Response, error) {
 	}()
 
 	wg.Wait()
-
-	response := &Response{
+	result := &CovidReport{
 		Province: mapByProvince,
 		AgeGroup: mapByAge,
 	}
-	return response, nil
+	return result, nil
 }

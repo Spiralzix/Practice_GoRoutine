@@ -8,21 +8,21 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type covidHandler struct {
+type CovidHandler struct {
 	service service.ICovidService
 }
 
-func NewCOVIDHandler(service service.ICovidService) *covidHandler {
-	return &covidHandler{
+func NewCOVIDHandler(service service.ICovidService) *CovidHandler {
+	return &CovidHandler{
 		service: service,
 	}
 }
 
-func (h *covidHandler) GetSummary(c *gin.Context) {
+func (h *CovidHandler) GetSummary(c *gin.Context) {
 	summaryReport, err := h.service.GetReport()
 	if err != nil {
-		log.Println("Failed to fetch COVID data:", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch COVID data"})
+		log.Println("Failed to get a summary report", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get a summary report"})
 		return
 	}
 	c.JSON(http.StatusOK, summaryReport)
