@@ -3,7 +3,7 @@ package service
 import (
 	"sync"
 
-	"github.com/Spiralzix/LinemanAssignment/internal/core/repositorys"
+	"github.com/Spiralzix/LinemanAssignment/external"
 )
 
 // type Response struct {
@@ -18,20 +18,20 @@ type Response struct {
 	AgeGroup map[string]int `json:"AgeGroup"`
 }
 type CovidService struct {
-	repo repositorys.ICovidRepo
+	repo external.ICovidRepo
 }
 
 type ICovidService interface {
 	GetReport() (*Response, error)
 }
 
-func NewCOVIDService(repo repositorys.ICovidRepo) ICovidService {
+func NewCOVIDService(repo external.ICovidRepo) ICovidService {
 	return &CovidService{
 		repo: repo,
 	}
 }
 
-func countByProvince(covidData *repositorys.CovidHistoricalData) map[string]int {
+func countByProvince(covidData *external.CovidHistoricalData) map[string]int {
 	var mapbyProvince = make(map[string]int)
 	for _, value := range covidData.Data {
 		mapbyProvince[value.Province] += 1
@@ -39,7 +39,7 @@ func countByProvince(covidData *repositorys.CovidHistoricalData) map[string]int 
 	return mapbyProvince
 }
 
-func countByAge(covidData *repositorys.CovidHistoricalData) map[string]int {
+func countByAge(covidData *external.CovidHistoricalData) map[string]int {
 	var mapbyAge = map[string]int{
 		"0-30":  0,
 		"31-60": 0,

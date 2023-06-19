@@ -1,6 +1,8 @@
 package mockdata
 
-import "github.com/Spiralzix/LinemanAssignment/internal/core/repositorys"
+import (
+	"github.com/Spiralzix/LinemanAssignment/external"
+)
 
 type MockCovidHistoricalData struct {
 	Data []MockCovidData `json:"Data"`
@@ -21,9 +23,9 @@ type MockCovidData struct {
 	StatQuarantine int    `json:"StatQuarantine"`
 }
 
-func (c *MockCovidHistoricalData) FetchData() (*repositorys.CovidHistoricalData, error) {
-	data := repositorys.CovidHistoricalData{
-		Data: []repositorys.CovidData{
+func (c *MockCovidHistoricalData) FetchData() (*external.CovidHistoricalData, error) {
+	data := external.CovidHistoricalData{
+		Data: []external.CovidData{
 			{
 				ConfirmDate:    "2022-06-15",
 				No:             1,

@@ -1,4 +1,4 @@
-package repositorys
+package external
 
 import (
 	"encoding/json"
@@ -27,7 +27,7 @@ type CovidData struct {
 
 type covidRepo struct{}
 
-func NewCOVIDRepository() ICovidRepo {
+func NewCOVIDRecord() ICovidRepo {
 	return &covidRepo{}
 }
 

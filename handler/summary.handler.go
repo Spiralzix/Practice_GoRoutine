@@ -19,12 +19,11 @@ func NewCOVIDHandler(service service.ICovidService) *covidHandler {
 }
 
 func (h *covidHandler) GetSummary(c *gin.Context) {
-	summary, err := h.service.GetReport()
+	summaryReport, err := h.service.GetReport()
 	if err != nil {
 		log.Println("Failed to fetch COVID data:", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch COVID data"})
 		return
 	}
-
-	c.JSON(http.StatusOK, summary)
+	c.JSON(http.StatusOK, summaryReport)
 }
