@@ -7,7 +7,6 @@ import (
 )
 
 func TestSummarizeCovidData(t *testing.T) {
-
 	// Data preparation
 	expectedSummary := CovidReport{
 		Province: map[string]int{
