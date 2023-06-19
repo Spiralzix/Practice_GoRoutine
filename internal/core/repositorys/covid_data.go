@@ -52,6 +52,5 @@ func (r *covidRepo) FetchData() (*CovidHistoricalData, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	return &data, nil
 }
