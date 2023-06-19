@@ -8,8 +8,8 @@ import (
 )
 
 func main() {
-	repo := external.NewCOVIDRecord()
-	service := service.NewCOVIDService(repo)
+	record := external.NewCOVIDRecord()
+	service := service.NewCOVIDService(record)
 	handler := handler.NewCOVIDHandler(service)
 	r := gin.Default()
 	r.GET("/covid/summary", handler.GetSummary)
