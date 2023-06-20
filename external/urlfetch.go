@@ -32,7 +32,7 @@ type CovidRecord struct {
 }
 
 func NewCOVIDRecord(url *config.Config) ICovidRecord {
-	return &CovidRecord{}
+	return &CovidRecord{url}
 }
 
 type ICovidRecord interface {

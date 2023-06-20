@@ -1,2 +1,2 @@
-GET http://localhost:9090/covid/summary
+GET http://localhost:8080/covid/summary
 ###

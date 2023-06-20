@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/Spiralzix/LinemanAssignment/config"
@@ -13,7 +12,6 @@ import (
 
 func main() {
 	cfg, err := config.NewConfig()
-	fmt.Println("cfg", cfg)
 	if err != nil {
 		log.Fatalf("Config error: %s", err)
 	}
@@ -22,5 +20,5 @@ func main() {
 	handler := handler.NewCOVIDHandler(service)
 	r := gin.Default()
 	r.GET("/covid/summary", handler.GetSummary)
-	r.Run(cfg.AppPort.Port)
+	r.Run(cfg.Port)
 }

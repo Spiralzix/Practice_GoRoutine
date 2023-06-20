@@ -10,11 +10,11 @@ import (
 type (
 	// Config -.
 	Config struct {
-		UrlFetch
+		CovidWeb
 		AppPort
 	}
 
-	UrlFetch struct {
+	CovidWeb struct {
 		Url string `env-required:"true" env:"COVID_DATA"`
 	}
 	AppPort struct {
@@ -32,11 +32,9 @@ func NewConfig() (*Config, error) {
 			return nil, fmt.Errorf("config error: %w", err)
 		}
 	}
-
 	err := cleanenv.ReadEnv(cfg)
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println("cfgxxx", cfg.UrlFetch)
 	return cfg, nil
 }
