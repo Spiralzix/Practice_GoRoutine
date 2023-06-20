@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/Spiralzix/LinemanAssignment/config"
 )
 
 type CovidHistoricalData struct {
@@ -25,9 +27,11 @@ type CovidData struct {
 	StatQuarantine int    `json:"StatQuarantine"`
 }
 
-type CovidRecord struct{}
+type CovidRecord struct {
+	web *config.Config
+}
 
-func NewCOVIDRecord() ICovidRecord {
+func NewCOVIDRecord(url *config.Config) ICovidRecord {
 	return &CovidRecord{}
 }
 
@@ -36,7 +40,7 @@ type ICovidRecord interface {
 }
 
 func (r *CovidRecord) FetchData() (*CovidHistoricalData, error) {
-	resp, err := http.Get("https://static.wongnai.com/devinterview/covid-cases.json")
+	resp, err := http.Get(r.web.Url)
 	if err != nil {
 		return nil, err
 	}
